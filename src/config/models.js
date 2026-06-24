@@ -4,22 +4,22 @@
 
 export const AI_MODELS = [
   {
-    id: "meta-llama/llama-3.1-8b-instruct:free",
-    name: "Llama 3.1 8B — Best Quality",
-    description: "Meta's flagship open model. Great for rich, detailed goal descriptions.",
+    id: "nvidia/nemotron-3-ultra-550b-a55b:free",
+    name: "Nemotron 3 Ultra 550B — Best Quality",
+    description: "NVIDIA's flagship ultra model. Excellent for detailed goal descriptions and affirmations.",
     badge: "⭐ Best",
   },
   {
-    id: "google/gemma-2-9b-it:free",
-    name: "Gemma 2 9B — Fastest",
-    description: "Google's fast instruction-tuned model. Low latency responses.",
-    badge: "⚡ Fast",
+    id: "nvidia/nemotron-3-super-120b-a12b:free",
+    name: "Nemotron 3 Super 120B — Balanced",
+    description: "NVIDIA's super model. Great balance of quality and speed.",
+    badge: "⚡ Balanced",
   },
   {
-    id: "mistralai/mistral-7b-instruct:free",
-    name: "Mistral 7B — Backup",
-    description: "Reliable European model. Good fallback if others are busy.",
-    badge: "🔄 Backup",
+    id: "poolside/laguna-m.1:free",
+    name: "Laguna M.1 — Fast",
+    description: "Poolside's efficient model. Quick responses for fast iterations.",
+    badge: "🚀 Fast",
   },
 ];
 
