@@ -1,0 +1,80 @@
+/* src/App.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  background-color: #0f0f1a;
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent horizontal scroll on mobile */
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0f0f1a;
+}
+::-webkit-scrollbar-thumb {
+  background: #2834d9;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #4a63f8;
+}
+
+/* ── Selection ── */
+::selection {
+  background: rgba(74, 99, 248, 0.35);
+  color: #ffffff;
+}
+
+/* ── Focus visible ── */
+:focus-visible {
+  outline: 2px solid #4a63f8;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Utility: line-clamp polyfill ── */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Three.js canvas pointer fix ── */
+canvas {
+  touch-action: none;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Select styling ── */
+select {
+  -webkit-appearance: none;
+  appearance: none;
+}
+select option {
+  background-color: #16172a;
+  color: #ffffff;
+}
