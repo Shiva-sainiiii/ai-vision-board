@@ -60,10 +60,22 @@ export default function Dashboard() {
     }
   }, [authLoading, user, navigate]);
 
-  // Fetch goals from Firestore
+  // Fetch goals from Firestore - MUST wait for authLoading to complete
   useEffect(() => {
-    if (!user || authLoading) return;
+    // Don't fetch if auth is still loading
+    if (authLoading) {
+      setLoadingGoals(true);
+      return;
+    }
+
+    // Don't fetch if no user
+    if (!user) {
+      setLoadingGoals(false);
+      return;
+    }
+
     const fetchGoals = async () => {
+      setLoadingGoals(true);
       try {
         const q = query(
           collection(db, "goals"),
@@ -71,15 +83,17 @@ export default function Dashboard() {
           orderBy("createdAt", "desc")
         );
         const snap = await getDocs(q);
-        setGoals(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+        const fetchedGoals = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        setGoals(fetchedGoals);
       } catch (e) {
         console.error("Failed to fetch goals:", e);
       } finally {
         setLoadingGoals(false);
       }
     };
+
     fetchGoals();
-  }, [user, authLoading]);
+  }, [authLoading, user]);
 
   // GSAP stagger on goals load
   useEffect(() => {
