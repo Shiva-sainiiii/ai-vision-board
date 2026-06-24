@@ -60,33 +60,46 @@ export default function Dashboard() {
     }
   }, [authLoading, user, navigate]);
 
-  // Fetch goals from Firestore - MUST wait for authLoading to complete
+  // Fetch goals from Firestore - called whenever user changes
   useEffect(() => {
-    // Don't fetch if auth is still loading
+    // If still loading auth, wait
     if (authLoading) {
-      setLoadingGoals(true);
+      console.log("Auth still loading...");
       return;
     }
 
-    // Don't fetch if no user
+    // If no user, don't fetch
     if (!user) {
+      console.log("No user, not fetching goals");
       setLoadingGoals(false);
       return;
     }
 
+    console.log("Fetching goals for user:", user.uid);
+    setLoadingGoals(true);
+
     const fetchGoals = async () => {
-      setLoadingGoals(true);
       try {
+        // Query to get all goals for this user
         const q = query(
           collection(db, "goals"),
           where("uid", "==", user.uid),
           orderBy("createdAt", "desc")
         );
+        
         const snap = await getDocs(q);
-        const fetchedGoals = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        const fetchedGoals = snap.docs.map((d) => {
+          const data = d.data();
+          console.log("Fetched goal:", d.id, data);
+          return { id: d.id, ...data };
+        });
+        
+        console.log("Total goals fetched:", fetchedGoals.length);
         setGoals(fetchedGoals);
       } catch (e) {
-        console.error("Failed to fetch goals:", e);
+        console.error("Error fetching goals:", e);
+        console.error("Error code:", e.code);
+        console.error("Error message:", e.message);
       } finally {
         setLoadingGoals(false);
       }
