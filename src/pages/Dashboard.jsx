@@ -30,7 +30,7 @@ import {
 const CATEGORIES = ["career", "health", "wealth", "love", "travel", "personal", "education"];
 
 export default function Dashboard() {
-  const { user, signOut } = useAuth();
+  const { user, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
 
@@ -53,14 +53,16 @@ export default function Dashboard() {
 
   const gridRef = useRef();
 
-  // Redirect if not logged in
+  // Redirect if not logged in (ONLY when auth is done loading)
   useEffect(() => {
-    if (!user) navigate("/");
-  }, [user, navigate]);
+    if (!authLoading && !user) {
+      navigate("/");
+    }
+  }, [authLoading, user, navigate]);
 
   // Fetch goals from Firestore
   useEffect(() => {
-    if (!user) return;
+    if (!user || authLoading) return;
     const fetchGoals = async () => {
       try {
         const q = query(
@@ -77,7 +79,7 @@ export default function Dashboard() {
       }
     };
     fetchGoals();
-  }, [user]);
+  }, [user, authLoading]);
 
   // GSAP stagger on goals load
   useEffect(() => {
@@ -150,6 +152,15 @@ export default function Dashboard() {
     setAiResult("");
     setAiOpen(true);
   };
+
+  // Show loading screen while auth is loading
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-[#0f0f1a] flex items-center justify-center">
+        <FaSpinner className="animate-spin text-brand-400 text-3xl" />
+      </div>
+    );
+  }
 
   const completedCount = goals.filter((g) => g.completed).length;
 
